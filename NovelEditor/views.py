@@ -8,6 +8,11 @@ class HomeView(generic.TemplateView):
     template_name = 'home.html'
 
 
+class TopView(generic.TemplateView):
+    template_name = 'top.html'
+
+
+
 """
 class HomeView(View):
     def get(self, request, *args, **kwargs):
