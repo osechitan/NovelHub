@@ -1,3 +1,21 @@
 from django.shortcuts import render
+from django.views import View
+from django.views import generic
 
-# Create your views here.
+
+class HomeView(generic.TemplateView):
+
+    template_name = 'home.html'
+
+
+"""
+class HomeView(View):
+    def get(self, request, *args, **kwargs):
+        context = {
+            'message': 'テスト',
+        }
+        return render(request, 'home.html', context)
+
+
+# home = HomeView.as_view()
+"""
