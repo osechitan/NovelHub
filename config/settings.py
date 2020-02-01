@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     # Applications
     'NovelEditor.apps.NoveleditorConfig',
     'accounts.apps.AccountsConfig',
+
 ]
 
 MIDDLEWARE = [
