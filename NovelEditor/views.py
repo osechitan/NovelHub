@@ -25,4 +25,4 @@ class HomeView(LoginRequiredMixin, generic.ListView):
 class NovelCreateView(LoginRequiredMixin, generic.CreateView):
     template_name = 'diary_create.html'
     form_class = NovelCreateForm
-    success_url = reverse_lazy('diary:diary_list')
+    # success_url = reverse_lazy('diary:diary_list')

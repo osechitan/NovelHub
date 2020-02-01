@@ -7,4 +7,4 @@ from .models import Novel
 class NovelCreateForm(forms.ModelForm):
     class Meta:
         model = Novel
-        fields = ('title', 'content', 'photo1', 'photo2', 'photo3', )
+        fields = ('title', 'body', )
