@@ -40,7 +40,7 @@ class NovelCreateView(LoginRequiredMixin, generic.CreateView):
 
     def form_valid(self, form):
 
-        version = Novel.objects.all().aggregate(latest_version=Max('version'))
+        version = Novel.objects.filter(user=self.request.user).aggregate(latest_version=Max('version'))
         novel = form.save(commit=False)
         novel.user = self.request.user
         novel.updated_at = timezone.now()

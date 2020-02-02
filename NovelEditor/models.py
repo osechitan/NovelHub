@@ -12,4 +12,4 @@ class Novel(models.Model):
     body = models.TextField(verbose_name='本文', null=True)
     created_at = models.DateTimeField(verbose_name='作成日', auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name='更新日', null=True)
-    version = models.IntegerField(verbose_name='バージョン')
+    version = models.IntegerField(verbose_name='バージョン', default=1)
