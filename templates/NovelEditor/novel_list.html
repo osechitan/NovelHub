@@ -9,7 +9,7 @@
     <h1>一覧</h1>
     {% for novel in novel_list %}
 
-        <a class="nav-link" href="{% url 'NovelHub:novel_detail' pk=novel.id %}">{{ novel.title }}</a>
+        <a class="nav-link" href="{% url 'NovelHub:novel_detail' id=novel.id %}">{{ novel.title }}</a>
         {{ novel.content|truncatechars:20 }}
         <p>{{ novel.created_at }}</p>
     {% empty %}

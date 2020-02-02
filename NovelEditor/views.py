@@ -44,7 +44,7 @@ class NovelCreateView(LoginRequiredMixin, generic.CreateView):
         novel = form.save(commit=False)
         novel.user = self.request.user
         novel.updated_at = timezone.now()
-        novel.version = version['latest_version'] + 1
+        # novel.version = version['latest_version'] + 1
         novel.save()
         # messages.success(self.request, '日記を作成しました。')
         return super().form_valid(form)
