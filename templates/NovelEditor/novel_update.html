@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>更新</title>
+</head>
+<body>
+    <form method="POST" enctype='multipart/form-data'>
+        {% csrf_token %}
+        <table class="table">
+            {{ form.as_table }}
+        </table>
+        <button class="btn btn-primary" type="submit">更新</button>
+        <a class="btn btn-secondary ml-2" href="{% url 'NovelHub:novel_update' object.id %}">キャンセル</a>
+    </form>
+</body>
+</html>

@@ -33,6 +33,16 @@ class NovelListView(LoginRequiredMixin, generic.ListView):
         return novels
 
 
+class NovelDetailView(LoginRequiredMixin, generic.DetailView):
+    template_name = 'novel_detail.html'
+
+    def get_queryset(self):
+        # versionの最新5件取得
+        version = Novel.objects.filter(user=self.request.user).order_by('-version')
+        novels = Novel.objects.filter(user=self.request.user).order_by('-created_at')
+        return novels
+
+
 class NovelCreateView(LoginRequiredMixin, generic.CreateView):
     template_name = 'novel_create.html'
     form_class = NovelCreateForm
@@ -54,11 +64,18 @@ class NovelCreateView(LoginRequiredMixin, generic.CreateView):
         return super().form_invalid(form)
 
 
-class NovelDetailView(LoginRequiredMixin, generic.DetailView):
-    template_name = 'novel_detail.html'
+class NovelUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Novel
+    template_name = 'novel_update.html'
+    form_class = NovelCreateForm
 
-    def get_queryset(self):
-        # versionの最新5件取得
-        version = Novel.objects.filter(user=self.request.user).order_by('-version')
-        novels = Novel.objects.filter(user=self.request.user).order_by('-created_at')
-        return novels
+    def get_success_url(self):
+        return reverse_lazy('NovelHub:novel_detail', kwargs={'pk': self.kwargs['pk']})
+
+    def form_valid(self, form):
+        # messages.success(self.request, '日記を更新しました。')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        # messages.error(self.request, "日記の更新に失敗しました。")
+        return super().form_invalid(form)
