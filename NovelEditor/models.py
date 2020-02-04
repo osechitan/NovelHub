@@ -14,4 +14,24 @@ class Novel(models.Model):
     body = models.TextField(verbose_name='本文', null=True)
     created_at = models.DateTimeField(verbose_name='作成日', auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name='更新日', null=True)
-    version = models.IntegerField(verbose_name='バージョン', default=1)
+
+
+class NovelHistory(models.Model):
+    """小説変更履歴モデル"""
+    class Meta:
+        db_table = 'novel_history'
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    novel_id = models.ForeignKey(Novel, verbose_name='ユーザー', on_delete=models.CASCADE)
+    body = models.TextField(verbose_name='本文', null=True)
+    created_at = models.DateTimeField(verbose_name='作成日')
+
+
+class NovelInfo():
+    """小説設定モデル"""
+    class Meta:
+        db_table = 'novel_info'
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    novel_id = models.ForeignKey(Novel, verbose_name='ユーザー', on_delete=models.CASCADE)
+    outline = models.TextField(verbose_name='本文', null=True)
