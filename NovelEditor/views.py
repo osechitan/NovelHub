@@ -4,7 +4,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views import generic
 from .models import Novel
+from .models import NovelHistory
 from .forms import NovelCreateForm
+from .forms import NovelUpdateForm
 from django.utils import timezone
 from django.db.models import Max
 
@@ -64,18 +66,17 @@ class NovelCreateView(LoginRequiredMixin, generic.CreateView):
         return super().form_invalid(form)
 
 
-class NovelUpdateView(LoginRequiredMixin, generic.UpdateView):
+class NovelUpdateView(LoginRequiredMixin, generic.TemplateView):
     model = Novel
     template_name = 'novel_update.html'
-    form_class = NovelCreateForm
+    form_class = NovelUpdateForm
+
+    def get(self, request, *args, **kwargs):
+        form = NovelUpdateForm(request.POST)
+        form.is_valid()
+        print('self={}'.format(kwargs['pk']))
+        history = NovelHistory.objects.filter(novel_id=kwargs['pk'])
+        return render(request, 'novel_update.html', {'form': form, 'history': history})
 
     def get_success_url(self):
         return reverse_lazy('NovelHub:novel_detail', kwargs={'pk': self.kwargs['pk']})
-
-    def form_valid(self, form):
-        # messages.success(self.request, '日記を更新しました。')
-        return super().form_valid(form)
-
-    def form_invalid(self, form):
-        # messages.error(self.request, "日記の更新に失敗しました。")
-        return super().form_invalid(form)

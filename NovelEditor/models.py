@@ -22,16 +22,18 @@ class NovelHistory(models.Model):
         db_table = 'novel_history'
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    novel_id = models.ForeignKey(Novel, verbose_name='ユーザー', on_delete=models.CASCADE)
+    novel_id = models.ForeignKey(Novel, verbose_name='小説ID', on_delete=models.CASCADE)
     body = models.TextField(verbose_name='本文', null=True)
     created_at = models.DateTimeField(verbose_name='作成日')
 
 
-class NovelInfo():
+class NovelInfo(models.Model):
     """小説設定モデル"""
     class Meta:
         db_table = 'novel_info'
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    novel_id = models.ForeignKey(Novel, verbose_name='ユーザー', on_delete=models.CASCADE)
+    novel_id = models.ForeignKey(Novel, verbose_name='小説ID', on_delete=models.CASCADE)
     outline = models.TextField(verbose_name='本文', null=True)
+    hero = models.CharField(verbose_name='主人公名', max_length=255, null=True)
+    heroine = models.CharField(verbose_name='ヒロイン', max_length=255, null=True)

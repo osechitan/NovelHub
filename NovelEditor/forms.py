@@ -13,3 +13,11 @@ class NovelCreateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+
+class NovelUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Novel
+        fields = ('title', 'body',)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)

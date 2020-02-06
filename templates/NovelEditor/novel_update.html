@@ -8,10 +8,14 @@
     <form method="POST" enctype='multipart/form-data'>
         {% csrf_token %}
         <table class="table">
-            {{ form.as_table }}
+            {% for f in form %}
+                {{ f }}<br />
+            {% endfor %}
         </table>
+        {{ history }}
+
         <button class="btn btn-primary" type="submit">更新</button>
-        <a class="btn btn-secondary ml-2" href="{% url 'NovelHub:novel_detail' object.id %}">キャンセル</a>
+
     </form>
 </body>
 </html>
