@@ -8,11 +8,9 @@
     <form method="POST" enctype='multipart/form-data'>
         {% csrf_token %}
         <table class="table">
-            {% for f in form %}
-                {{ f }}<br />
-            {% endfor %}
+            {{ form }}
         </table>
-        {{ history }}
+        にゃんぱす＝{{ history }}
 
         <button class="btn btn-primary" type="submit">更新</button>
 
