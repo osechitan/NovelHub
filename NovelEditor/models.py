@@ -23,8 +23,9 @@ class NovelHistory(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     novel_id = models.ForeignKey(Novel, verbose_name='小説ID', on_delete=models.CASCADE)
+    title = models.CharField(verbose_name='タイトル', max_length=255, null=True)
     body = models.TextField(verbose_name='本文', null=True)
-    created_at = models.DateTimeField(verbose_name='作成日')
+    created_at = models.DateTimeField(verbose_name='作成日', auto_now_add=True)
 
 
 class NovelInfo(models.Model):

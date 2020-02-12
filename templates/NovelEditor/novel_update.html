@@ -10,9 +10,13 @@
         <table class="table">
             {{ form }}
         </table>
-        にゃんぱす＝{{ history }}
+        <button class="btn btn-primary" type="submit">更新</button><br /><br />
+        {% for h in history %}
+            作成日：{{ h.created_at }}<br />
+            タイトル：{{ h.title }}<br />
+            本文：{{ h.body | linebreaksbr}}<br /><br />
 
-        <button class="btn btn-primary" type="submit">更新</button>
+        {% endfor %}
 
     </form>
 </body>

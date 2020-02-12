@@ -14,7 +14,7 @@
         <p>{{ novel.created_at }}</p>
         <a class="nav-link" href="{% url 'NovelHub:novel_update' novel.id %}">編集</a>
     {% empty %}
-        <p>小説がありません</p>
+        <p>まだ小説がありません</p>
         <p>自分だけの小説を書いて見ましょう！</p>
         <a class="nav-link" href="{% url 'NovelHub:novel_create' %}">執筆！</a>
     {% endfor %}
