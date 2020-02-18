@@ -9,8 +9,6 @@ from .models import Novel
 from .models import NovelHistory
 from .forms import NovelCreateForm
 
-
-
 logger = logging.getLogger(__name__)
 
 
