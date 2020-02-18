@@ -44,3 +44,6 @@ class NovelInfo(models.Model):
     outline = models.TextField(verbose_name='本文', null=True)
     hero = models.CharField(verbose_name='主人公名', max_length=255, null=True)
     heroine = models.CharField(verbose_name='ヒロイン', max_length=255, null=True)
+
+    def __str__(self):
+        return str(self.id)
