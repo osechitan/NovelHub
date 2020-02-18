@@ -1,6 +1,4 @@
 from django import forms
-from django.core.mail import EmailMessage
-
 
 from .models import Novel
 from .models import NovelHistory

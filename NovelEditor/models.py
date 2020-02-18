@@ -1,7 +1,7 @@
-from accounts.models import CustomUser
 from django.db import models
 import uuid
 
+from accounts.models import CustomUser
 
 class Novel(models.Model):
     """小説モデル"""

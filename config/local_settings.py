@@ -20,7 +20,7 @@ LOGGING = {
             'level': 'INFO',
         },
         # diaryアプリケーションが利用するロガー
-        'diary': {
+        'NovelEditor': {
             'handlers': ['console'],
             'level': 'DEBUG',
         },

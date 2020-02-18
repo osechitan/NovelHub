@@ -1,16 +1,15 @@
-import logging
 from django.shortcuts import render,redirect
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
-from django.views import generic
+from django.views import generic, View
+from django.utils import timezone
+import logging
+
 from .models import Novel
 from .models import NovelHistory
 from .forms import NovelCreateForm
-from django.utils import timezone
-from django.views import View
 
-from datetime import date
+
 
 logger = logging.getLogger(__name__)
 
@@ -93,14 +92,18 @@ class NovelUpdateView(LoginRequiredMixin, generic.UpdateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('NovelHub:novel_detail', kwargs={'pk': self.kwargs['pk']})
+        return reverse('NovelHub:novel_detail', kwargs={'pk': self.kwargs['pk']})
 
 
 class NovelRevertView(LoginRequiredMixin, View):
     
     def post(self, request, *args, **kwargs):
-        """POSTリクエスト用のメソッド"""
-        novel_history_id = kwargs['pk']
-        novel_history = NovelHistory.objects.get(id=novel_history_id)
-        print('postに入った{}'.format(novel_history))
+        # 履歴モデルから戻す処理
+        novel_history = NovelHistory.objects.get(id=kwargs['pk'])
+        novel = Novel.objects.get(id=novel_history.novel_id.id)
+        novel.title = novel_history.title
+        novel.body = novel_history.body
+        novel.updated_at = timezone.now()
+        novel.save()
+
         return redirect(reverse('NovelHub:novel_detail', kwargs={'pk': novel_history.novel_id.id}))
