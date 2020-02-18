@@ -15,6 +15,9 @@ class Novel(models.Model):
     created_at = models.DateTimeField(verbose_name='作成日', auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name='更新日', null=True)
 
+    def __str__(self):
+        return self.title
+
 
 class NovelHistory(models.Model):
     """小説変更履歴モデル"""
@@ -26,6 +29,9 @@ class NovelHistory(models.Model):
     title = models.CharField(verbose_name='タイトル', max_length=255, null=True)
     body = models.TextField(verbose_name='本文', null=True)
     created_at = models.DateTimeField(verbose_name='作成日', auto_now_add=True)
+
+    def __str__(self):
+        return self.title
 
 
 class NovelInfo(models.Model):

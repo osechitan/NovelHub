@@ -1,11 +1,16 @@
 import logging
-from django.shortcuts import render
+from django.shortcuts import render,redirect
+from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views import generic
 from .models import Novel
 from .models import NovelHistory
 from .forms import NovelCreateForm
+from django.utils import timezone
+from django.views import View
+
+from datetime import date
 
 logger = logging.getLogger(__name__)
 
@@ -36,8 +41,7 @@ class NovelDetailView(LoginRequiredMixin, generic.DetailView):
     template_name = 'novel_detail.html'
 
     def get_queryset(self):
-        # versionの最新5件取得
-        version = Novel.objects.filter(user=self.request.user).order_by('-version')
+        # 最新5件取得
         novels = Novel.objects.filter(user=self.request.user).order_by('-created_at')
         return novels
 
@@ -66,13 +70,19 @@ class NovelUpdateView(LoginRequiredMixin, generic.UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # 小説モデルに紐づく小説履歴最新5件取得
         context.update({
-            'history': NovelHistory.objects.filter(novel_id=self.kwargs['pk']).all()[:5]
+            'history': NovelHistory.objects.filter(novel_id=self.kwargs['pk']).all().order_by('-created_at')[:5]
         })
         return context
 
     def form_valid(self, form):
+        # 小説モデル更新
+        novel = form.save(commit=False)
+        novel.updated_at = timezone.now()
+        novel.save()
 
+        # 小説モデルに紐づく履歴モデル作成
         novel = Novel.objects.get(id=self.kwargs['pk'])
         novel_history = NovelHistory()
         novel_history.novel_id = novel
@@ -84,3 +94,13 @@ class NovelUpdateView(LoginRequiredMixin, generic.UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('NovelHub:novel_detail', kwargs={'pk': self.kwargs['pk']})
+
+
+class NovelRevertView(LoginRequiredMixin, View):
+    
+    def post(self, request, *args, **kwargs):
+        """POSTリクエスト用のメソッド"""
+        novel_history_id = kwargs['pk']
+        novel_history = NovelHistory.objects.get(id=novel_history_id)
+        print('postに入った{}'.format(novel_history))
+        return redirect(reverse('NovelHub:novel_detail', kwargs={'pk': novel_history.novel_id.id}))

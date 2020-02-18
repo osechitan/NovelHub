@@ -13,6 +13,8 @@
         <p>{{ novel.body|truncatechars:20 }}</p>
         <p>{{ novel.created_at }}</p>
         <a class="nav-link" href="{% url 'NovelHub:novel_update' novel.id %}">編集</a>
+        <hr >
+        <br />
     {% empty %}
         <p>まだ小説がありません</p>
         <p>自分だけの小説を書いて見ましょう！</p>
