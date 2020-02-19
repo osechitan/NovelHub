@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>小説一覧</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% load static %}
+{% block pate_title %}一覧画面{% endblock %}
+{% block content %}
     <a class="nav-link" href="{% url 'NovelHub:home' %}">ホームへ</a>
     <h1>一覧</h1>
     {% for novel in novel_list %}
@@ -20,5 +17,4 @@
         <p>自分だけの小説を書いて見ましょう！</p>
         <a class="nav-link" href="{% url 'NovelHub:novel_create' %}">執筆！</a>
     {% endfor %}
-</body>
-</html>
+{% endblock %}

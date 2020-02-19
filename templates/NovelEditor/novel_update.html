@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>更新</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% load static %}
+{% block pate_title %}編集{% endblock %}
+{% block content %}
     <a class="nav-link" href="{% url 'NovelHub:home' %}">ホームへ</a>
     <a class="nav-link" href="{% url 'NovelHub:novel_list' %}">一覧へ</a>
     <a href="{% url 'NovelHub:novel_detail' object.id%}">戻る</a>
@@ -27,5 +24,4 @@
             <hr>
         </form>
     {% endfor %}
-</body>
-</html>
+{% endblock %}
