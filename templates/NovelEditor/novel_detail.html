@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>詳細画面</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% load static %}
+{% block pate_title %}詳細画面{% endblock %}
+{% block content %}
     <h2>タイトル：</h2>
     {{ object.title }}
     <h2>本文：</h2>
@@ -14,5 +11,4 @@
     <h2>更新日時</h2>
     <p>{{ object.updated_at }}</p>
     <a class="nav-link" href="{% url 'NovelHub:novel_update' object.id %}">編集</a>
-</body>
-</html>
+{% endblock %}

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block pate_title %}{% endblock %}</title>
+
+    <!-- css -->
+    <link rel="stylesheet" href="{% static 'css/' %}">
+    {% block extra_css %}{% endblock %}
+
+    <!-- js -->
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</head>
+<body>
+<div class="ui container">
+    {% block content %}{% endblock %}
+</div>
+</body>
+</html>

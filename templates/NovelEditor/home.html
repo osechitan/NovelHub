@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>homeだよ</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% load static %}
+{% block pate_title %}ホーム{% endblock %}
+{% block content %}
     <h1>ホーム</h1>
     <a class="nav-link" href="{% url 'account_logout' %}">ログアウト</a>
     <a class="nav-link" href="{% url 'NovelHub:novel_create' %}">小説執筆</a>
     <a class="nav-link" href="{% url 'NovelHub:novel_list' %}">小説一覧</a>
-
-</body>
-</html>
+{% endblock %}
