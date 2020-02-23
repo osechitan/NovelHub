@@ -2,8 +2,6 @@
 {% load static %}
 {% block pate_title %}編集{% endblock %}
 {% block content %}
-    <a class="nav-link" href="{% url 'NovelHub:home' %}">ホームへ</a>
-    <a class="nav-link" href="{% url 'NovelHub:novel_list' %}">一覧へ</a>
     <a href="{% url 'NovelHub:novel_detail' object.id%}">戻る</a>
     <form method="POST" enctype='multipart/form-data'>
         {% csrf_token %}
@@ -11,8 +9,6 @@
             {{ form }}
         </table>
         <button class="btn btn-primary" type="submit">更新</button><br /><br />
-        
-
     </form>
     {% for h in history %}
         <form method="POST" enctype='multipart/form-data' action="{% url 'NovelHub:novel_revert' h.id %}">

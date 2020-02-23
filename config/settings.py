@@ -160,11 +160,11 @@ AUTHENTICATION_BACKENDS = (
 
 # メールアドレス認証に変更する設定
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 
-# サインアップにメールアドレス確認を挟むよう設定
+# メールアドレス検証を必須に設定
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-ACCOUNT_EMAIL_REQUIRED = True
 
 # ログイン/ログアウト後の遷移先を設定
 LOGIN_REDIRECT_URL = '/home/'
