@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% block pate_title %}編集{% endblock %}
+{% block pate_title %}編集画面{% endblock %}
 {% block content %}
     <a href="{% url 'NovelHub:novel_detail' object.id%}">戻る</a>
     <form method="POST" enctype='multipart/form-data'>

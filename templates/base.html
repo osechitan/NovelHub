@@ -8,7 +8,7 @@
     <title>{% block pate_title %}{% endblock %}</title>
 
     <!-- css -->
-    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/sticky-footer.css' %}">
     <style>
         @media screen and (min-width: 900px) {
             .logout-btn{
@@ -19,7 +19,8 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-<nav class="navbar navbar-expand-sm sticky-top navbar-dark bg-dark mt-3 mb-3">
+<!-- header -->
+<nav class="navbar navbar-expand-sm sticky-top navbar-dark bg-dark mb-3">
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'NovelHub:home' %}">NovelHub</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,6 +54,14 @@
 <div class="container-fluid">
     {% block content %}{% endblock %}
 </div>
+
+<!-- footer-->
+<footer class="footer">
+  <div class="container">
+    <p class="text-muted">Copyright © 2020 osechitan All Rights Reserved.</p>
+  </div>
+</footer>
+
 {% block extra_js %}{% endblock %}
 </body>
 </html>
