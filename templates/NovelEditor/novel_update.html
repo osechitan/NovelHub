@@ -1,23 +1,23 @@
 {% extends "base.html" %}
 {% load static %}
+{% load bootstrap4 %}
 {% block pate_title %}編集画面{% endblock %}
 {% block content %}
-    <a href="{% url 'NovelHub:novel_detail' object.id%}">戻る</a>
+    <!--<a class="btn btn-primary mb-1" role="button" href="{% url 'NovelHub:novel_detail' object.id %}">戻る</a>-->
     <form method="POST" enctype='multipart/form-data'>
         {% csrf_token %}
-        <table class="table">
-            {{ form }}
-        </table>
+        {% bootstrap_form form %}
         <button class="btn btn-primary" type="submit">更新</button><br /><br />
     </form>
     {% for h in history %}
-        <form method="POST" enctype='multipart/form-data' action="{% url 'NovelHub:novel_revert' h.id %}">
-            {% csrf_token %}
-            作成日：{{ h.created_at }}<br />
-            タイトル：{{ h.title }}<br />
-            本文：{{ h.body | linebreaksbr}}<br /><br />
-            <button class="btn btn-primary" type="submit">戻す</button>
-            <hr>
-        </form>
+    <form method="POST" enctype='multipart/form-data' action="{% url 'NovelHub:novel_revert' h.id %}">
+        {% csrf_token %}
+        作成日：{{ h.created_at }}<br />
+        タイトル：{{ h.title }}<br />
+        本文：{{ h.body | linebreaksbr}}<br /><br />
+        <button class="btn btn-primary" type="submit">戻す</button>
+        <hr>
+    </form>
     {% endfor %}
+    <a class="btn btn-danger mb-1" role="button" href="{% url 'NovelHub:novel_delete' object.id %}">削除</a>
 {% endblock %}

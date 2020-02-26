@@ -105,3 +105,12 @@ class NovelRevertView(LoginRequiredMixin, View):
         novel.save()
 
         return redirect(reverse('NovelHub:novel_detail', kwargs={'pk': novel_history.novel_id.id}))
+
+
+class NovelDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Novel
+    template_name = 'novel_delete.html'
+    success_url = reverse_lazy('NovelHub:novel_list')
+
+    def delete(self, request, *args, **kwargs):
+        return super().delete(request, *args, **kwargs)

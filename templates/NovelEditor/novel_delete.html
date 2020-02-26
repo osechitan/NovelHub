@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load static %}
+{% block pate_title %}小説執筆{% endblock %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <p>本当に "{{ object }}" を削除しますか?</p>
+    <a class="btn btn-primary" href="{% url 'NovelHub:novel_detail' object.id %}">キャンセル</a>
+    <button class="btn btn-danger" type="submit">削除</button>
+</form>
+{% endblock %}

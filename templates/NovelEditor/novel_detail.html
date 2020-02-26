@@ -10,7 +10,7 @@
             <a class="btn btn-primary" role="button" href="{% url 'NovelHub:novel_update' object.id %}" >編集</a>
         </div>
     </div>
-    <div class="mb-2 border pb-1">
+    <div class="mb-2 border rounded pb-1">
         {{ object.body | linebreaksbr }}
     </div>
     <div class="mb-2">
@@ -19,5 +19,4 @@
     <div class="mb-2">
         <p>更新日時： {{ object.updated_at }}</p>
     </div>
-
 {% endblock %}
