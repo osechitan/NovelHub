@@ -3,13 +3,18 @@
 {% block pate_title %}一覧画面{% endblock %}
 {% block content %}
     {% for novel in novel_list %}
-        <a class="nav-link" href="{% url 'NovelHub:novel_detail' novel.id %}">{{ novel.title }}</a>
-        <p>{{ novel.body|truncatechars:20 }}</p>
-        <p>{{ novel.created_at }}</p>
-        <a class="btn btn-primary btn-sm logout-btn" role="button" href="{% url 'NovelHub:novel_update' novel.id %}}" >編集</a>
-        <hr >
-        <br />
-    {% empty %}
+        <h4><a href="{% url 'NovelHub:novel_detail' novel.id %}">{{ novel.title }}</a></h4>
+        <div class="mb-2 border rounded pb-1">
+            <p>{{ novel.body| truncatechars:75 | linebreaksbr}}</p>
+        </div>
+        <div>
+            <p>作成日： {{ novel.created_at }}</p>
+        </div>
+        <div class="mb-3 border-bottom">
+            <a class="btn btn-primary btn-sm mb-3" role="button" href="{% url 'NovelHub:novel_update' novel.id %}" >編集</a>
+        </div>
+
+        {% empty %}
         <p>まだ小説がありません</p>
         <p>自分だけの小説を書いて見ましょう！</p>
         <a class="nav-link" href="{% url 'NovelHub:novel_create' %}">執筆！</a>
