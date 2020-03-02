@@ -9,6 +9,7 @@
         <button class="btn btn-primary" type="submit">更新</button><br /><br />
     </form>
     <!-- 過去履歴をアコーディオンとして表示 -->
+    {% if history|length < 0 %}
     <h4>過去履歴</h4>
     <div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
         {% for h in history %}
@@ -39,6 +40,7 @@
         </div>
         {% endfor %}
     </div>
+    {% endif %}
     <!-- 小説削除ボタン -->
     <a class="btn btn-danger mt-3 mb-3" role="button" href="{% url 'NovelHub:novel_delete' object.id %}">削除</a>
 {% endblock %}
