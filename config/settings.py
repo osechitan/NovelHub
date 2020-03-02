@@ -53,6 +53,9 @@ INSTALLED_APPS = [
     'NovelEditor.apps.NoveleditorConfig',
     'accounts.apps.AccountsConfig',
 
+    # bootstrap4
+    'bootstrap4',
+
 ]
 
 MIDDLEWARE = [
@@ -82,6 +85,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+            ],
+            'builtins':[
+                'bootstrap4.templatetags.bootstrap4',
             ],
         },
     },
@@ -154,11 +160,11 @@ AUTHENTICATION_BACKENDS = (
 
 # メールアドレス認証に変更する設定
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 
-# サインアップにメールアドレス確認を挟むよう設定
+# メールアドレス検証を必須に設定
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-ACCOUNT_EMAIL_REQUIRED = True
 
 # ログイン/ログアウト後の遷移先を設定
 LOGIN_REDIRECT_URL = '/home/'

@@ -11,4 +11,5 @@ urlpatterns = [
     path('novel-create/', views.NovelCreateView.as_view(), name='novel_create'),
     path('novel-update/<pk>/', views.NovelUpdateView.as_view(), name='novel_update'),
     path('novel-revert/<pk>/', views.NovelRevertView.as_view(), name='novel_revert'),
+    path('novel-delete/<pk>/', views.NovelDeleteView.as_view(), name='novel_delete'),
 ]

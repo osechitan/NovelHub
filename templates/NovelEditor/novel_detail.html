@@ -2,13 +2,21 @@
 {% load static %}
 {% block pate_title %}詳細画面{% endblock %}
 {% block content %}
-    <h2>タイトル：</h2>
-    {{ object.title }}
-    <h2>本文：</h2>
-    {{ object.body }}
-    <h2>作成日時</h2>
-    <p>{{ object.created_at }}</p>
-    <h2>更新日時</h2>
-    <p>{{ object.updated_at }}</p>
-    <a class="nav-link" href="{% url 'NovelHub:novel_update' object.id %}">編集</a>
+    <div class="clearfix mb-2">
+        <div class="float-left">
+            <h3>{{ object.title }}</h3>
+        </div>
+        <div class="float-right">
+            <a class="btn btn-primary" role="button" href="{% url 'NovelHub:novel_update' object.id %}" >編集</a>
+        </div>
+    </div>
+    <div class="mb-2 border rounded pb-1">
+        {{ object.body | linebreaksbr }}
+    </div>
+    <div class="mb-2">
+        <p>作成日時： {{ object.created_at }}</p>
+    </div>
+    <div class="mb-2">
+        <p>更新日時： {{ object.updated_at }}</p>
+    </div>
 {% endblock %}
