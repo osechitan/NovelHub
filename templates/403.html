@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% load static %}
+{% block pate_title %}エラー{% endblock %}
+{% block content %}
+<h1>このページは利用できません</h1>
+<p>アクセス権限がありません。</p>
+<p>エラーステータス：403</p>
+<p><a href="{% url 'NovelHub:home' %}">ホームに戻る</a></p>
+{% endblock %}
