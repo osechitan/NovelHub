@@ -55,12 +55,7 @@ class NovelCreateView(LoginRequiredMixin, generic.CreateView):
         novel.save()
 
         # 小説モデルに紐づく履歴モデル作成
-        novel_history = NovelHistory()
-        novel_history.novel_id = novel
-        novel_history.title = form.cleaned_data['title']
-        novel_history.body = form.cleaned_data['body']
-        novel_history.save()
-
+        NovelHistory().create_history_data(novel=novel, title=form.cleaned_data['title'], body=form.cleaned_data['body'])
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -88,12 +83,8 @@ class NovelUpdateView(LoginRequiredMixin, generic.UpdateView):
 
         # 小説モデルに紐づく履歴モデル作成
         novel = Novel.objects.get(id=self.kwargs['pk'])
-        novel_history = NovelHistory()
-        novel_history.novel_id = novel
-        novel_history.title = form.cleaned_data['title']
-        novel_history.body = form.cleaned_data['body']
+        NovelHistory().create_history_data(novel=novel, title=form.cleaned_data['title'], body=form.cleaned_data['body'])
 
-        novel_history.save()
         return super().form_valid(form)
 
     def get_success_url(self):

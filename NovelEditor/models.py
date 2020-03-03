@@ -33,6 +33,14 @@ class NovelHistory(models.Model):
     def __str__(self):
         return self.title
 
+    # 小説に紐づく履歴データ作成
+    def create_history_data(self, novel, title='title', body='内容'):
+        novel_history = NovelHistory()
+        novel_history.novel_id = novel
+        novel_history.title = title
+        novel_history.body = body
+        novel_history.save()
+
 
 class NovelInfo(models.Model):
     """小説設定モデル"""
