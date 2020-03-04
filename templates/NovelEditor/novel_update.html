@@ -9,7 +9,7 @@
         <button class="btn btn-primary" type="submit">更新</button><br /><br />
     </form>
     <!-- 過去履歴をアコーディオンとして表示 -->
-    {% if history|length < 0 %}
+    {% if history|length > 0 %}
     <h4>過去履歴</h4>
     <div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
         {% for h in history %}

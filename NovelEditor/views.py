@@ -82,8 +82,11 @@ class NovelUpdateView(LoginRequiredMixin, generic.UpdateView):
         novel.save()
 
         # 小説モデルに紐づく履歴モデル作成
-        novel = Novel.objects.get(id=self.kwargs['pk'])
-        NovelHistory().create_history_data(novel=novel, title=form.cleaned_data['title'], body=form.cleaned_data['body'])
+        NovelHistory().create_history_data(
+            novel=novel,
+            title=form.cleaned_data['title'],
+            body=form.cleaned_data['body']
+        )
 
         return super().form_valid(form)
 
@@ -95,14 +98,8 @@ class NovelRevertView(LoginRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
         # 履歴モデルから戻す処理
-        novel_history = NovelHistory.objects.get(id=kwargs['pk'])
-        novel = Novel.objects.get(id=novel_history.novel_id.id)
-        novel.title = novel_history.title
-        novel.body = novel_history.body
-        novel.updated_at = timezone.now()
-        novel.save()
-
-        return redirect(reverse('NovelHub:novel_detail', kwargs={'pk': novel_history.novel_id.id}))
+        novel = Novel().novel_revert(kwargs['pk'])
+        return redirect(reverse('NovelHub:novel_detail', kwargs={'pk': novel.id}))
 
 
 class NovelDeleteView(LoginRequiredMixin, generic.DeleteView):

@@ -1,5 +1,6 @@
 from django.db import models
 import uuid
+from django.utils import timezone
 
 from accounts.models import CustomUser
 
@@ -17,6 +18,16 @@ class Novel(models.Model):
 
     def __str__(self):
         return self.title
+
+    # 履歴モデルから戻す処理
+    def novel_revert(self, history_id):
+        novel_history = NovelHistory.objects.get(id=history_id)
+        novel = Novel.objects.get(id=novel_history.novel_id.id)
+        novel.title = novel_history.title
+        novel.body = novel_history.body
+        novel.updated_at = timezone.now()
+        novel.save()
+        return novel
 
 
 class NovelHistory(models.Model):
@@ -40,6 +51,8 @@ class NovelHistory(models.Model):
         novel_history.title = title
         novel_history.body = body
         novel_history.save()
+
+        return novel_history
 
 
 class NovelInfo(models.Model):
