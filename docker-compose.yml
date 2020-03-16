@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:12.2
+    stdin_open: true
+    tty: true
+    env_file:
+      - ./.env
+    volumes:
+      - postgres_data:/usr/local/var/postgres/
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: $DB_USER_NAME
+      POSTGRES_PASSWORD: $DB_PASSWORD
+      POSTGRES_DB: $DB_NAME
+
+  web:
+    build: .
+    volumes:
+      - .:/usr/src
+    stdin_open: true
+    tty: true
+    ports:
+      - 8000:8000
+    depends_on:
+      - postgres
+
+
+volumes:
+    postgres_data:
