@@ -13,12 +13,20 @@ from .forms import NovelCreateForm
 logger = logging.getLogger(__name__)
 
 
-class TopView(generic.TemplateView):
+class TopView(LoginRequiredMixin, generic.ListView):
     """
     トップ画面表示ビュー
     """
 
+    model = Novel
     template_name = 'top.html'
+
+    def get_queryset(self):
+        """
+        小説一覧を返す関数
+        """
+        novels = Novel.objects.filter(user=self.request.user).order_by('-created_at')
+        return novels
 
 
 class HomeView(LoginRequiredMixin, generic.ListView):
