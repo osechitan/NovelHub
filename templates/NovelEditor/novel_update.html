@@ -19,7 +19,8 @@
                     <div class="clearfix mb-2">
                         <div class="float-left">
                             <a class="text-body d-block p-3 m-n3" data-toggle="collapse" href="#collapse{{ forloop.counter }}" role="button" aria-expanded="true" aria-controls="collapse{{ forloop.counter }}">
-                                {{ h.created_at }}
+                                {{ h.created_at }}&nbsp&nbsp
+                                バージョン：{{ h.revision_id }}
                             </a>
                         </div>
                         <div class="float-right">

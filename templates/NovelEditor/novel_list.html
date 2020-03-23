@@ -10,6 +10,9 @@
         <div>
             <p>作成日： {{ novel.created_at }}</p>
         </div>
+        <div>
+            <p>バージョン： {{ novel.revision_id }}</p>
+        </div>
         <div class="mb-3 border-bottom">
             <a class="btn btn-primary btn-sm mb-3" role="button" href="{% url 'NovelHub:novel_update' novel.id %}" >編集</a>
         </div>
