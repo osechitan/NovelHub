@@ -155,7 +155,7 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
 # ログイン/ログアウト後の遷移先を設定
-LOGIN_REDIRECT_URL = '/home/'
+LOGIN_REDIRECT_URL = '/novel-list/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 # ログアウトリンクのクリック一発でログアウトする設定

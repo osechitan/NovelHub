@@ -30,23 +30,6 @@ class TopView(LoginRequiredMixin, generic.ListView):
         return novels
 
 
-class HomeView(LoginRequiredMixin, generic.ListView):
-    """
-    ホーム画面表示ビュー
-    """
-
-    model = Novel
-    template_name = 'home.html'
-
-    def get_queryset(self):
-        """
-        小説一覧を返す関数
-        """
-
-        novels = Novel.objects.filter(user=self.request.user).order_by('-created_at')
-        return novels
-
-
 class NovelListView(LoginRequiredMixin, generic.ListView):
     """
     小説一覧表示用ビュー
