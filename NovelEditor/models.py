@@ -1,8 +1,12 @@
+from decimal import *
+
 from django.db import models
 import uuid
 from django.utils import timezone
 
 from accounts.models import CustomUser
+
+REVISION_ID = 1
 
 class Novel(models.Model):
     """小説モデル"""
@@ -15,6 +19,7 @@ class Novel(models.Model):
     body = models.TextField(verbose_name='本文', null=True)
     created_at = models.DateTimeField(verbose_name='作成日', auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name='更新日', null=True)
+    revision_id = models.IntegerField(verbose_name='バージョン', null=True)
 
     def __str__(self):
         return self.title
@@ -26,7 +31,19 @@ class Novel(models.Model):
         novel.title = novel_history.title
         novel.body = novel_history.body
         novel.updated_at = timezone.now()
+
+        revision_id_added = novel_history.revision_id + REVISION_ID
+        novel.revision_id = revision_id_added
         novel.save()
+
+        # 戻した小説と同じバージョンの履歴モデル作成
+        NovelHistory().create_history_data(
+                novel = novel,
+                title = novel.title,
+                body = novel_history.body,
+                revision_id = revision_id_added
+            )
+        
         return novel
 
 
@@ -40,16 +57,18 @@ class NovelHistory(models.Model):
     title = models.CharField(verbose_name='タイトル', max_length=255, null=True)
     body = models.TextField(verbose_name='本文', null=True)
     created_at = models.DateTimeField(verbose_name='作成日', auto_now_add=True)
+    revision_id = models.IntegerField(verbose_name='バージョン', null=True)
 
     def __str__(self):
         return self.title
 
     # 小説に紐づく履歴データ作成
-    def create_history_data(self, novel, title='title', body='内容'):
+    def create_history_data(self, novel, title, body, revision_id):
         novel_history = NovelHistory()
         novel_history.novel_id = novel
         novel_history.title = title
         novel_history.body = body
+        novel_history.revision_id = revision_id
         novel_history.save()
 
         return novel_history

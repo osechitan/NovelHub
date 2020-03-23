@@ -12,6 +12,7 @@ from .forms import NovelCreateForm
 
 logger = logging.getLogger(__name__)
 
+REVISION_ID = 1
 
 class TopView(LoginRequiredMixin, generic.ListView):
     """
@@ -89,6 +90,7 @@ class NovelCreateView(LoginRequiredMixin, generic.CreateView):
         novel = form.save(commit=False)
         novel.user = self.request.user
         novel.updated_at = timezone.now()
+        # novel.revision_id = REVISION_ID
 
         #小説/履歴モデル保存時にエラーの場合はロールバックする
         with transaction.atomic():
@@ -97,7 +99,8 @@ class NovelCreateView(LoginRequiredMixin, generic.CreateView):
             NovelHistory().create_history_data(
                 novel=novel,
                 title=form.cleaned_data['title'],
-                body=form.cleaned_data['body']
+                body=form.cleaned_data['body'],
+                revision_id=REVISION_ID
             )
 
         return super().form_valid(form)
@@ -131,10 +134,11 @@ class NovelUpdateView(LoginRequiredMixin, generic.UpdateView):
         """
         小説更新して履歴を作成する関数
         """
-
+        
         # 小説モデル更新
         novel = form.save(commit=False)
         novel.updated_at = timezone.now()
+        novel.revision_id += REVISION_ID
 
         # 小説/履歴モデル保存時にエラーの場合はロールバックする
         with transaction.atomic():
@@ -143,9 +147,10 @@ class NovelUpdateView(LoginRequiredMixin, generic.UpdateView):
             NovelHistory().create_history_data(
                 novel=novel,
                 title=form.cleaned_data['title'],
-                body=form.cleaned_data['body']
+                body=form.cleaned_data['body'],
+                # cleaned_dataのrevision_idの更新後が取れないため、明示的にプラスする
+                revision_id=form.cleaned_data['revision_id'] + REVISION_ID
             )
-
         return super().form_valid(form)
 
     def get_success_url(self):
