@@ -14,20 +14,13 @@ logger = logging.getLogger(__name__)
 
 REVISION_ID = 1
 
-class TopView(LoginRequiredMixin, generic.ListView):
+class TopView(generic.TemplateView):
     """
     トップ画面表示ビュー
     """
 
-    model = Novel
     template_name = 'top.html'
 
-    def get_queryset(self):
-        """
-        小説一覧を返す関数
-        """
-        novels = Novel.objects.filter(user=self.request.user).order_by('-created_at')
-        return novels
 
 
 class NovelListView(LoginRequiredMixin, generic.ListView):

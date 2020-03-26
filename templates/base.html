@@ -43,6 +43,13 @@
                     <a class="btn btn-info btn-sm logout-btn" role="button" href="{% url 'account_logout' %}" >ログアウト</a>
                 </li>
             </ul>
+
+            {% else %}
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="btn btn-info btn-sm logout-btn" role="button" href="{% url 'account_login' %}" >ログイン</a>
+                </li>
+            </ul>
             {% endif %}
         </div>
     </div>
