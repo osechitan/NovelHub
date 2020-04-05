@@ -66,10 +66,10 @@ class NovelCreateView(LoginRequiredMixin, generic.CreateView):
         novel = form.save(commit=False)
         novel.user = self.request.user
         novel.updated_at = timezone.now()
-        # novel.revision_id = REVISION_ID
 
         #小説/履歴モデル保存時にエラーの場合はロールバックする
         with transaction.atomic():
+             
             novel.save()
             # 小説モデルに紐づく履歴モデル作成
             NovelHistory().create_history_data(

@@ -152,7 +152,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 
 # メールアドレス検証を必須に設定
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 # ログイン/ログアウト後の遷移先を設定
 LOGIN_REDIRECT_URL = '/novel-list/'
