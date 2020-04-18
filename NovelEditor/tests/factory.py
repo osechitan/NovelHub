@@ -9,6 +9,7 @@ class NovelFactory(factory.django.DjangoModelFactory):
 
     title='タイトル'
     body='本文'
+    revision_id=1
 
 
 class UserFactory(factory.django.DjangoModelFactory):

@@ -128,6 +128,9 @@ class NovelUpdateView(LoginRequiredMixin, generic.UpdateView):
                 revision_id=form.cleaned_data['revision_id'] + REVISION_ID
             )
         return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        return super().form_invalid(form)
 
     def get_success_url(self):
         return reverse('NovelHub:novel_detail', kwargs={'pk': self.kwargs['pk']})
