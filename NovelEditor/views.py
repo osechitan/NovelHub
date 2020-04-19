@@ -86,6 +86,7 @@ class NovelCreateView(LoginRequiredMixin, generic.CreateView):
 
     def form_invalid(self, form):
         messages.error(self.request, '作成に失敗しました。')
+        logger.warning('failed to create novel(id:{0}) created by {1}'.format(novel.id, self.request.user))
         return super().form_invalid(form)
 
 
@@ -135,6 +136,7 @@ class NovelUpdateView(LoginRequiredMixin, generic.UpdateView):
     
     def form_invalid(self, form):
         messages.error(self.request, '更新に失敗しました。')
+        logger.warning('failed to update novel(id:{0}) created by {1}'.format(novel.id, self.request.user))
         return super().form_invalid(form)
 
     def get_success_url(self):
