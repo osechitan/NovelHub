@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 from django.views import generic, View
 from django.utils import timezone
 from django.db import transaction
@@ -78,10 +79,13 @@ class NovelCreateView(LoginRequiredMixin, generic.CreateView):
                 body=form.cleaned_data['body'],
                 revision_id=REVISION_ID
             )
+        
+        messages.success(self.request, '作成しました。')
 
         return super().form_valid(form)
 
     def form_invalid(self, form):
+        messages.error(self.request, '作成に失敗しました。')
         return super().form_invalid(form)
 
 
@@ -124,12 +128,13 @@ class NovelUpdateView(LoginRequiredMixin, generic.UpdateView):
                 novel=novel,
                 title=form.cleaned_data['title'],
                 body=form.cleaned_data['body'],
-                # cleaned_dataのrevision_idの更新後が取れないため、明示的にプラスする
                 revision_id=form.cleaned_data['revision_id'] + REVISION_ID
             )
+        messages.success(self.request, '更新しました。')
         return super().form_valid(form)
     
     def form_invalid(self, form):
+        messages.error(self.request, '更新に失敗しました。')
         return super().form_invalid(form)
 
     def get_success_url(self):
@@ -148,6 +153,7 @@ class NovelRevertView(LoginRequiredMixin, View):
 
         # 履歴モデルから戻す処理
         novel = Novel().novel_revert(kwargs['pk'])
+        messages.success(self.request, '過去履歴から戻しました。')
         return redirect(reverse('NovelHub:novel_detail', kwargs={'pk': novel.id}))
 
 
@@ -165,4 +171,5 @@ class NovelDeleteView(LoginRequiredMixin, generic.DeleteView):
         小説削除関数
         """
 
+        messages.success(self.request, '削除しました。')
         return super().delete(request, *args, **kwargs)
