@@ -1,6 +1,8 @@
 import os
 import environ
 
+from django.contrib.messages import constants as messages
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -139,7 +141,57 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
+MESSAGE_TAGS = {
+    messages.ERROR: 'alert alert-danger',
+    messages.WARNING: 'alert alert-warning',
+    messages.SUCCESS: 'alert alert-success',
+    messages.INFO: 'alert alert-info',
+}
+
 SITE_ID = 1
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+
+    # ロガーの設定
+    'loggers': {
+        # Djangoが利用するロガー
+        'django': {
+            'handlers': ['file'],
+            'level': 'INFO',
+        },
+        'NovelEditor': {
+            'handlers': ['file'],
+            'level': 'INFO',
+        },
+    },
+
+    # ハンドラの設定
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/django.log'),
+            'formatter': 'prod',
+            'when': 'D',  # ログローテーション(新しいファイルへの切り替え)間隔の単位(D=日)
+            'interval': 1,  # ログローテーション間隔(1日単位)
+            'backupCount': 7,  # 保存しておくログファイル数
+        },
+    },
+
+    # フォーマッタの設定
+    'formatters': {
+        'prod': {
+            'format': '\t'.join([
+                '%(asctime)s',
+                '[%(levelname)s]',
+                '%(pathname)s(Line:%(lineno)d)',
+                '%(message)s'
+            ])
+        },
+    }
+}
 
 AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',  # 一般ユーザー用(メールアドレス認証)
@@ -152,7 +204,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 
 # メールアドレス検証を必須に設定
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 # ログイン/ログアウト後の遷移先を設定
 LOGIN_REDIRECT_URL = '/novel-list/'

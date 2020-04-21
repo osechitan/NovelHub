@@ -3,6 +3,10 @@ from decimal import *
 from django.db import models
 import uuid
 from django.utils import timezone
+from django.urls import reverse
+from django.core.exceptions import ValidationError
+from django.http import Http404
+from django.shortcuts import get_object_or_404
 
 from accounts.models import CustomUser
 
@@ -26,25 +30,29 @@ class Novel(models.Model):
 
     # 履歴モデルから戻す処理
     def novel_revert(self, history_id):
-        novel_history = NovelHistory.objects.get(id=history_id)
-        novel = Novel.objects.get(id=novel_history.novel_id.id)
-        novel.title = novel_history.title
-        novel.body = novel_history.body
-        novel.updated_at = timezone.now()
+        try:
+            novel_history = get_object_or_404(NovelHistory, id=history_id)
+        except ValidationError as validerr:
+            raise Http404
+        else:
+            novel = get_object_or_404(Novel, id=novel_history.novel_id.id)
+            novel.title = novel_history.title
+            novel.body = novel_history.body
+            novel.updated_at = timezone.now()
 
-        revision_id_added = novel_history.revision_id + REVISION_ID
-        novel.revision_id = revision_id_added
-        novel.save()
+            revision_id_added = novel_history.revision_id + REVISION_ID
+            novel.revision_id = revision_id_added
+            novel.save()
 
-        # 戻した小説と同じバージョンの履歴モデル作成
-        NovelHistory().create_history_data(
-                novel = novel,
-                title = novel.title,
-                body = novel_history.body,
-                revision_id = revision_id_added
-            )
+            # 戻した小説と同じバージョンの履歴モデル作成
+            NovelHistory().create_history_data(
+                    novel = novel,
+                    title = novel.title,
+                    body = novel_history.body,
+                    revision_id = revision_id_added
+                )
         
-        return novel
+            return novel
 
 
 class NovelHistory(models.Model):
@@ -72,18 +80,3 @@ class NovelHistory(models.Model):
         novel_history.save()
 
         return novel_history
-
-
-class NovelInfo(models.Model):
-    """小説設定モデル"""
-    class Meta:
-        db_table = 'novel_info'
-
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    novel_id = models.ForeignKey(Novel, verbose_name='小説ID', on_delete=models.CASCADE)
-    outline = models.TextField(verbose_name='本文', null=True)
-    hero = models.CharField(verbose_name='主人公名', max_length=255, null=True)
-    heroine = models.CharField(verbose_name='ヒロイン', max_length=255, null=True)
-
-    def __str__(self):
-        return str(self.id)
