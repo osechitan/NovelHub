@@ -2,5 +2,6 @@
 *.pyc
 .env
 .vscode
-/venv/
 .devcontainer
+.logs
+postgresql
