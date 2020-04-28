@@ -4,6 +4,8 @@ services:
   web:
     restart: always
     stdin_open: true
+    environment: 
+      TZ: Asia/Tokyo
     tty: true
     build: .
     volumes:
@@ -35,13 +37,10 @@ services:
     env_file:
       - ./.env
     volumes:
-      - postgres_data:/usr/local/var/postgres/
+      - ./postgresql:/var/lib/postgresql/data
     ports:
       - 5432:5432
     environment:
       POSTGRES_USER: $DB_USER_NAME
       POSTGRES_PASSWORD: $DB_PASSWORD
       POSTGRES_DB: $DB_NAME
-
-volumes:
-    postgres_data:
