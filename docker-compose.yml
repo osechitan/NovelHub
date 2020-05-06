@@ -7,7 +7,9 @@ services:
     environment: 
       TZ: Asia/Tokyo
     tty: true
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile_web
     volumes:
       - .:/usr/src
       - ./static:/usr/src/static
@@ -19,14 +21,15 @@ services:
       - postgres
 
   nginx:
-    image: nginx
+    build:
+      context: .
+      dockerfile: Dockerfile_nginx
     ports:
       - "80:80"
     volumes:
       - "./nginx/:/etc/nginx/"
       - ./static:/etc/nginx/html/static
       - ./templates:/etc/nginx/html/templates
-      - ./nginx/ssl/:/etc/nginx/html
     depends_on:
       - web
 

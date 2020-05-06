@@ -3,5 +3,5 @@
 .env
 .vscode
 .devcontainer
-.logs
+/logs
 postgresql
