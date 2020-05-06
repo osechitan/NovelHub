@@ -26,7 +26,6 @@ services:
       - "./nginx/:/etc/nginx/"
       - ./static:/etc/nginx/html/static
       - ./templates:/etc/nginx/html/templates
-      - ./nginx/ssl/:/etc/nginx/html
     depends_on:
       - web
 
