@@ -3,13 +3,11 @@ version: '3'
 services:
   web:
     restart: always
-    stdin_open: true
     environment: 
       TZ: Asia/Tokyo
     tty: true
     build:
       context: .
-      dockerfile: Dockerfile_web
     volumes:
       - .:/usr/src
       - ./static:/usr/src/static
@@ -21,17 +19,29 @@ services:
       - postgres
 
   nginx:
-    build:
-      context: .
-      dockerfile: Dockerfile_nginx
+    image: nginx:1.17-alpine
     ports:
       - "80:80"
+      - "443:443"
+    expose:
+      - "80"
+      - "443"
     volumes:
-      - "./nginx/:/etc/nginx/"
+      - ./nginx:/etc/nginx
       - ./static:/etc/nginx/html/static
       - ./templates:/etc/nginx/html/templates
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
     depends_on:
       - web
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
   postgres:
     restart: always

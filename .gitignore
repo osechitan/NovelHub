@@ -5,3 +5,4 @@
 .devcontainer
 /logs
 postgresql
+init-letsencrypt.sh
