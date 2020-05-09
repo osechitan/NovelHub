@@ -3,5 +3,6 @@
 .env
 .vscode
 .devcontainer
-.logs
+/logs
 postgresql
+init-letsencrypt.sh
