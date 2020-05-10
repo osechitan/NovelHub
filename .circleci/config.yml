@@ -47,6 +47,7 @@ jobs:
           name: test
           command: |
             echo ${ENV} > ~/.env
+            cat ~/.env
             python3 manage.py test
     
   deploy:
