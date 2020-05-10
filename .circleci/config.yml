@@ -42,13 +42,12 @@ jobs:
     steps:
       - checkout
       - pip_install
-
+      - run:
+          name: Decode env file
+          command: echo $ENV | base64 --decode > .env
       - run:
           name: test
-          command: |
-            echo ${ENV} > ~/.env
-            cat ~/.env
-            python3 manage.py test
+          command: python3 manage.py test
     
   deploy:
    executor: deploy_default
