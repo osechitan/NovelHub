@@ -1,0 +1,73 @@
+version: 2.1
+
+# 実行環境の定義
+executors:
+  test_default:
+    working_directory: ~/project
+    docker:
+    - image: circleci/python:3.7
+      environment:
+        PYTHONDONTWRITEBYTECODE: 1
+        PYTHONUNBUFFERED: 1
+        TZ: Asia/Tokyo
+    - image: circleci/postgres:12
+      environment:
+        POSTGRES_USER: postgres
+        POSTGRES_DB: postgres
+        TZ: Asia/Tokyo
+
+  deploy_default:
+    working_directory: ~/project
+    docker:
+    - image: circleci/python:3.7
+      environment:
+        PYTHONDONTWRITEBYTECODE: 1
+        PYTHONUNBUFFERED: 1
+        TZ: Asia/Tokyo
+
+# 実行コマンドの定義
+commands:
+  save_python_package:
+    description: "pip install したpackageをキャッシュする"
+    steps:
+      - save_cache:
+          name: Save Python Package
+          key: myproject-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          paths:
+          - /usr/local/bin
+          - /usr/local/lib/python3.7/site-packages
+  restore_python_package:
+    description: "pip install したpackageのキャッシュを読み込む"
+    steps:
+      - restore_cache:
+          name: Restore Python Package
+          keys:
+          - myproject-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          - myproject
+  pip_install:
+    description: "pip install を実行"
+    steps:
+      - run: 
+          name: pip install
+          command: pip3 install -r requirements.txt --user
+
+# ジョブの定義
+jobs:
+  build:
+    executor: test_default
+    steps:
+      - checkout
+      - restore_python_package
+      - pip_install
+      - save_python_package
+
+      - run:
+          name: test
+          command: echo ${ENV} > ~/.env  
+                   python3 manage.py test
+
+workflows:
+  version: 2.1
+  build_and_test:
+    jobs:
+    - build
