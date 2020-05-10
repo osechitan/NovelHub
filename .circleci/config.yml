@@ -59,6 +59,8 @@ jobs:
     steps:
       - checkout
       - run: sudo apt-get install tar
+      - run: sudo apt-get install untar
+      - run: sudo apt-get install gzip
       - restore_python_package
       - pip_install
       - save_python_package
