@@ -58,7 +58,7 @@ jobs:
     executor: test_default
     steps:
       - checkout
-      - run: apt-get install tar
+      - run: sudo apt-get install tar
       - restore_python_package
       - pip_install
       - save_python_package
