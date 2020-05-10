@@ -9,16 +9,13 @@ executors:
       environment:
         PYTHONDONTWRITEBYTECODE: 1
         PYTHONUNBUFFERED: 1
-        DB_NAME: postgres
-        DB_USER_NAME: postgres
-        DB_PASSWORD: postgres
         TZ: Asia/Tokyo
     - image: circleci/postgres:12.2
       name: postgres
       environment:
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: postgres
-        POSTGRES_DB: postgres
+        POSTGRES_USER: $DB_USER_NAME
+        POSTGRES_PASSWORD: $DB_PASSWORD
+        POSTGRES_DB: $DB_NAME
         TZ: Asia/Tokyo
 
   deploy_default:
