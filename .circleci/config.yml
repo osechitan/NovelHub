@@ -46,6 +46,12 @@ jobs:
           name: Decode env file
           command: echo $ENV | base64 --decode > .env
       - run:
+          name: create necessary folders and files
+          command: |
+            mkdir postgresql
+            mkdir logs
+            touch logs/django.log
+      - run:
           name: test
           command: python3 manage.py test
     
