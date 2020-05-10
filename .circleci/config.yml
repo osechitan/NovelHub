@@ -45,8 +45,9 @@ jobs:
 
       - run:
           name: test
-          command: echo ${ENV} > ~/.env
-                   python3 manage.py test
+          command: |
+            echo ${ENV} > ~/.env
+            python3 manage.py test
     
   deploy:
    executor: deploy_default
