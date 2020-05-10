@@ -13,6 +13,7 @@ executors:
     - image: circleci/postgres:12
       environment:
         POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
         POSTGRES_DB: postgres
         TZ: Asia/Tokyo
 
@@ -63,7 +64,7 @@ jobs:
 
       - run:
           name: test
-          command: echo ${ENV} > ~/.env  
+          command: echo ${ENV} > ~/.env
                    python3 manage.py test
     
   deploy:
