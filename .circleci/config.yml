@@ -12,9 +12,9 @@ executors:
         TZ: Asia/Tokyo
     - image: circleci/postgres:12
       environment:
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: postgres
-        POSTGRES_DB: postgres
+        POSTGRES_USER: $DB_NAME
+        POSTGRES_PASSWORD: $DB_PASSWORD
+        POSTGRES_DB: $DB_NAME
         TZ: Asia/Tokyo
 
   deploy_default:
@@ -66,7 +66,7 @@ jobs:
      # ssh実行時の対話回避のため、key-scanを実行
      - run:
          name: Start ssh-key-scan
-         command: ssh-keyscan ${HOST_NAME} >> ~/.ssh/known_hosts
+         command: ssh-keyscan $HOST_NAME >> ~/.ssh/known_hosts
      - run:
          name: Start install rsync
          command: sudo apt install -y rsync
@@ -75,7 +75,7 @@ jobs:
      - run:
          name: Start rsync
          command: rsync -av --exclude='Dockerfile' --exclude='.ssh' --exclude='.git'
-                  --exclude='.circleci' . ${USER_NAME}@${HOST_NAME}:/home/user/src
+                  --exclude='.circleci' . $USER_NAME@$HOST_NAME:/home/$USER_NAME/src/NovelHub
 
 workflows:
   version: 2.1
