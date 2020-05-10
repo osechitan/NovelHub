@@ -28,23 +28,6 @@ executors:
 
 # 実行コマンドの定義
 commands:
-  save_python_package:
-    description: "pip install したpackageをキャッシュする"
-    steps:
-      - save_cache:
-          name: Save Python Package
-          key: myproject-{{ .Branch }}-{{ checksum "requirements.txt" }}
-          paths:
-          - /usr/local/bin
-          - /usr/local/lib/python3.7/site-packages
-  restore_python_package:
-    description: "pip install したpackageのキャッシュを読み込む"
-    steps:
-      - restore_cache:
-          name: Restore Python Package
-          keys:
-          - myproject-{{ .Branch }}-{{ checksum "requirements.txt" }}
-          - myproject
   pip_install:
     description: "pip install を実行"
     steps:
@@ -58,11 +41,7 @@ jobs:
     executor: test_default
     steps:
       - checkout
-      - run: sudo apt-get install tar
-      - run: sudo apt-get install gzip
-      - restore_python_package
       - pip_install
-      - save_python_package
 
       - run:
           name: test
