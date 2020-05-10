@@ -11,6 +11,7 @@ executors:
         PYTHONUNBUFFERED: 1
         TZ: Asia/Tokyo
     - image: circleci/postgres:12.2
+      name: postgres
       environment:
         POSTGRES_USER: $DB_USER_NAME
         POSTGRES_PASSWORD: $DB_PASSWORD
