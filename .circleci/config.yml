@@ -54,7 +54,7 @@ jobs:
             touch logs/django.log
       - run:
           name: test
-          command: python3 manage.py test
+          command: python manage.py test --settings config.circleci_test_settings
     
   deploy:
    executor: deploy_default
