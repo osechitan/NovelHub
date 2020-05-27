@@ -67,16 +67,11 @@ jobs:
      # ssh実行時の対話回避のため、key-scanを実行
      - run:
          name: Start ssh-key-scan
-         command: ssh-keyscan $HOST_NAME >> ~/.ssh/known_hosts
-     - run:
-         name: Start install rsync
-         command: sudo apt install -y rsync
-     # checkoutしたコードをデプロイ先に同期する
-     # Dockerfile, .circleciは使わないので除外する
+         command: ssh-keyscan ${HOST_NAME} >> ~/.ssh/known_hosts
+     # gitmasterからpull
      - run:
          name: Start rsync
-         command: rsync -av --exclude='Dockerfile' --exclude='.ssh' --exclude='.git'
-                  --exclude='.circleci' . $USER_NAME@$HOST_NAME:/home/$USER_NAME/src/NovelHub
+         command: ssh ${USER_NAME}@${HOST_NAME} 'cd /home/${USER_NAME}/src/NovelHub && git pull origin master'
 
 workflows:
   version: 2.1
