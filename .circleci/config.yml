@@ -1,0 +1,91 @@
+version: 2.1
+
+# 実行環境の定義
+executors:
+  test_default:
+    working_directory: ~/project
+    docker:
+    - image: circleci/python:3.7
+      environment:
+        PYTHONDONTWRITEBYTECODE: 1
+        PYTHONUNBUFFERED: 1
+        TZ: Asia/Tokyo
+    - image: circleci/postgres:12.2
+      name: postgres
+      environment:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+        POSTGRES_DB: postgres
+        TZ: Asia/Tokyo
+
+  deploy_default:
+    working_directory: ~/project
+    docker:
+    - image: circleci/python:3.7
+      environment:
+        PYTHONDONTWRITEBYTECODE: 1
+        PYTHONUNBUFFERED: 1
+        TZ: Asia/Tokyo
+
+# 実行コマンドの定義
+commands:
+  pip_install:
+    description: "pip install を実行"
+    steps:
+      - run: 
+          name: pip install
+          command: pip3 install -r requirements.txt --user
+
+# ジョブの定義
+jobs:
+  build:
+    executor: test_default
+    steps:
+      - checkout
+      - pip_install
+      - run:
+          name: Decode env file
+          command: echo $ENV | base64 --decode > .env
+      - run:
+          name: create necessary folders and files
+          command: |
+            mkdir postgresql
+            mkdir logs
+            touch logs/django.log
+      - run:
+          name: test
+          command: python manage.py test --settings config.circleci_test_settings
+    
+  deploy:
+   executor: deploy_default
+   steps:
+     - checkout
+     # circleciに登録した秘密鍵のfingerprint
+     - add_ssh_keys:
+         fingerprints:
+         - 0b:99:30:a4:87:58:c7:76:99:5d:3a:56:91:4e:1d:41
+     # ssh実行時の対話回避のため、key-scanを実行
+     - run:
+         name: Start ssh-key-scan
+         command: ssh-keyscan $HOST_NAME >> ~/.ssh/known_hosts
+     - run:
+         name: Start install rsync
+         command: sudo apt install -y rsync
+     # checkoutしたコードをデプロイ先に同期する
+     # Dockerfile, .circleciは使わないので除外する
+     - run:
+         name: Start rsync
+         command: rsync -av --exclude='Dockerfile' --exclude='.ssh' --exclude='.git'
+                  --exclude='.circleci' . $USER_NAME@$HOST_NAME:/home/$USER_NAME/src/NovelHub
+
+workflows:
+  version: 2.1
+  build_and_deploy:
+    jobs:
+    - build
+    - deploy:
+        filters:
+          branches: #masterブランチへのpushがあった時のみ
+            only: master
+        requires:
+        - build

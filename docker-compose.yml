@@ -5,7 +5,6 @@ services:
     restart: always
     environment: 
       TZ: Asia/Tokyo
-    tty: true
     build:
       context: .
     volumes:

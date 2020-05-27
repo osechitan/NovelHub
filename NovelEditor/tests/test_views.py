@@ -1,6 +1,7 @@
 from django.test import TestCase, Client, RequestFactory
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser
+from django.contrib.messages.storage.fallback import FallbackStorage
 from django.urls import reverse
 from .factory import UserFactory
 from ..models import Novel, NovelHistory
@@ -22,6 +23,10 @@ class TestNovelListView(TestCase):
     def test_get_queryset(self):
         request = self.request_factory.get(reverse('NovelHub:novel_list'))
         request.user = self.user
+        setattr(request, 'session', 'session')
+        messages = FallbackStorage(request)
+        setattr(request, '_messages', messages)
+
         response = views.NovelListView.as_view()(request)
         self.assertEqual(response.status_code, 200)
 
@@ -33,6 +38,10 @@ class TestNovelListView(TestCase):
     def test_redirect_unauthenticated_user(self):
         request = self.request_factory.get(reverse('NovelHub:novel_list'))
         request.user = AnonymousUser()
+        setattr(request, 'session', 'session')
+        messages = FallbackStorage(request)
+        setattr(request, '_messages', messages)
+
         response = views.NovelListView.as_view()(request)
         
         # 認証されたユーザーでないため、リダイレクトされることを確認
@@ -54,6 +63,10 @@ class TestNovelDetailView(TestCase):
         
         request = self.request_factory.get(reverse('NovelHub:novel_detail', kwargs={'pk': self.novel.id}))
         request.user = self.user
+        setattr(request, 'session', 'session')
+        messages = FallbackStorage(request)
+        setattr(request, '_messages', messages)
+
         response = views.NovelDetailView.as_view()(request, pk=self.novel.id)
         self.assertEqual(response.status_code, 200)
 
@@ -65,6 +78,10 @@ class TestNovelDetailView(TestCase):
     def test_redirect_unauthenticated_user(self):
         request = self.request_factory.get(reverse('NovelHub:novel_detail', kwargs={'pk': self.novel.id}))
         request.user = AnonymousUser()
+        setattr(request, 'session', 'session')
+        messages = FallbackStorage(request)
+        setattr(request, '_messages', messages)
+
         response = views.NovelDetailView.as_view()(request, pk=self.novel.id)
 
         # 認証されたユーザーでないため、リダイレクトされることを確認
@@ -88,6 +105,9 @@ class TestNovelCreateView(TestCase):
     def test_get(self):
         request = self.request_factory.get(reverse('NovelHub:novel_create'))
         request.user = self.user
+        setattr(request, 'session', 'session')
+        messages = FallbackStorage(request)
+        setattr(request, '_messages', messages)
         response = views.NovelCreateView.as_view()(request)
 
         self.assertEqual(response.status_code, 200)
@@ -97,6 +117,10 @@ class TestNovelCreateView(TestCase):
         data = {}
         request = self.request_factory.post(reverse('NovelHub:novel_create'), data=data)
         request.user = self.user
+        setattr(request, 'session', 'session')
+        messages = FallbackStorage(request)
+        setattr(request, '_messages', messages)
+
         response = views.NovelCreateView.as_view()(request)
         self.assertEqual(response.status_code, 200)
 
@@ -108,7 +132,10 @@ class TestNovelCreateView(TestCase):
         }
         request = self.request_factory.post(reverse('NovelHub:novel_create'), data=data)
         request.user = self.user
-        
+        setattr(request, 'session', 'session')
+        messages = FallbackStorage(request)
+        setattr(request, '_messages', messages)
+
         response = views.NovelCreateView.as_view()(request)
         self.assertEqual(response.status_code, 302)
 
@@ -133,6 +160,10 @@ class TestNovelCreateView(TestCase):
         }
         request = self.request_factory.post(reverse('NovelHub:novel_create'), data=data)
         request.user = AnonymousUser()
+        setattr(request, 'session', 'session')
+        messages = FallbackStorage(request)
+        setattr(request, '_messages', messages)
+
         response = views.NovelCreateView.as_view()(request)
 
         # 認証されたユーザーでないため、リダイレクトされ、小説が作成されないことを確認
@@ -179,6 +210,10 @@ class TestNovelUpdateView(TestCase):
         data = {}
         request = self.request_factory.post(reverse('NovelHub:novel_update', kwargs={'pk': self.novel.pk}), data=data)
         request.user = self.user
+        setattr(request, 'session', 'session')
+        messages = FallbackStorage(request)
+        setattr(request, '_messages', messages)
+
         response = views.NovelUpdateView.as_view()(request, pk=self.novel.id)
         self.assertEqual(response.status_code, 200)
 
@@ -191,6 +226,10 @@ class TestNovelUpdateView(TestCase):
 
         request = self.request_factory.post(reverse('NovelHub:novel_update', kwargs={'pk': self.novel.pk}), data=data)
         request.user = self.user
+        setattr(request, 'session', 'session')
+        messages = FallbackStorage(request)
+        setattr(request, '_messages', messages)
+
         response = views.NovelUpdateView.as_view()(request, pk=self.novel.id, data=data)
         self.assertEqual(response.status_code, 302)
 
@@ -214,6 +253,10 @@ class TestNovelUpdateView(TestCase):
         }
         request = self.request_factory.post(reverse('NovelHub:novel_update', kwargs={'pk': self.novel.pk}), data=data)
         request.user = AnonymousUser()
+        setattr(request, 'session', 'session')
+        messages = FallbackStorage(request)
+        setattr(request, '_messages', messages)
+
         response = views.NovelUpdateView.as_view()(request, pk=self.novel.id, data=data)
         
         # 認証されたユーザーでないため、リダイレクトされ、小説が更新されないことを確認
@@ -256,6 +299,10 @@ class TestNovelRevertView(TestCase):
 
         request = self.request_factory.post(reverse('NovelHub:novel_revert', kwargs={'pk': self.novel_history.id}))
         request.user = self.user
+        setattr(request, 'session', 'session')
+        messages = FallbackStorage(request)
+        setattr(request, '_messages', messages)
+
         response = views.NovelRevertView.as_view()(request, pk=self.novel_history.id)
         self.assertEqual(response.status_code, 302)
 
@@ -280,6 +327,10 @@ class TestNovelRevertView(TestCase):
         
         request = self.request_factory.post(reverse('NovelHub:novel_revert', kwargs={'pk': self.novel_history.id}))
         request.user = AnonymousUser()
+        setattr(request, 'session', 'session')
+        messages = FallbackStorage(request)
+        setattr(request, '_messages', messages)
+
         response = views.NovelRevertView.as_view()(request, pk=self.novel_history.id)
         
         # 認証されたユーザーでないため、リダイレクトされ、小説が更新されないことを確認
@@ -302,12 +353,20 @@ class TestNovelDeleteView(TestCase):
     def test_get(self):
         request = self.request_factory.get(reverse('NovelHub:novel_delete', kwargs={'pk': self.novel.id}))
         request.user = self.user
+        setattr(request, 'session', 'session')
+        messages = FallbackStorage(request)
+        setattr(request, '_messages', messages)
+
         response = views.NovelDeleteView.as_view()(request, pk=self.novel.id)
         self.assertEqual(response.status_code, 200)
 
     def test_post(self):
         request = self.request_factory.post(reverse('NovelHub:novel_delete', kwargs={'pk': self.novel.id}))
         request.user = self.user
+        setattr(request, 'session', 'session')
+        messages = FallbackStorage(request)
+        setattr(request, '_messages', messages)
+    
         response = views.NovelDeleteView.as_view()(request, pk=self.novel.id)
         self.assertEqual(response.status_code, 302)
 
@@ -317,6 +376,10 @@ class TestNovelDeleteView(TestCase):
     def test_redirect_unauthenticated_user(self):
         request = self.request_factory.post(reverse('NovelHub:novel_delete', kwargs={'pk': self.novel.id}))
         request.user = AnonymousUser()
+        setattr(request, 'session', 'session')
+        messages = FallbackStorage(request)
+        setattr(request, '_messages', messages)
+
         response = views.NovelDeleteView.as_view()(request, pk=self.novel.id)
         
         # 認証されたユーザーでないため、リダイレクトされ、小説が削除されないことを確認

@@ -145,6 +145,8 @@ MESSAGE_TAGS = {
     messages.INFO: 'alert alert-info',
 }
 
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
 SITE_ID = 1
 
 LOGGING = {
