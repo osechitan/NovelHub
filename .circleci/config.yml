@@ -71,7 +71,7 @@ jobs:
      # git masterからpull
      - run:
          name: Start git pull
-         command: ssh ${USER_NAME}@${HOST_NAME} 'cd /home/${USER_NAME}/src/NovelHub && git pull origin master'
+         command: ssh ${USER_NAME}@${HOST_NAME} 'cd /home/app_admin/src/NovelHub && git pull origin master'
 
 workflows:
   version: 2.1
