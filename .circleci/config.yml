@@ -71,7 +71,7 @@ jobs:
      # git masterからpullし、dockerコンテナ再起動
      - run:
          name: Start git pull
-         command: ssh ${USER_NAME}@${HOST_NAME} 'cd /home/${USER_NAME}/src/NovelHub && git pull origin master && docker-compose restart'
+         command: ssh ${USER_NAME}@${HOST_NAME} 'cd ~/src/NovelHub && git pull origin master && docker-compose restart'
 
 workflows:
   version: 2.1
