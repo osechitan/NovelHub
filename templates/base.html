@@ -58,8 +58,8 @@
 {% if messages %}
     <div class="container">
         <div class="row">
-            <div class="my-div-style w-100">
-                <ul class="messages" style="list-style: none;">
+            <div class="w-100">
+                <ul class="messages px-2" style="list-style: none;">
                     {% for message in messages %}
                         <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
                             {{ message }}
@@ -76,7 +76,7 @@
 </div>
 
 <!-- footer-->
-<footer class="footer">
+<footer class="footer h-auto">
   <div class="container">
     <p class="text-muted">Copyright © 2020 osechitan All Rights Reserved.</p>
   </div>
