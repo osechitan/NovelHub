@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     # Applications
     'NovelEditor.apps.NoveleditorConfig',
     'accounts.apps.AccountsConfig',
+    'NovelPost.apps.NovelpostConfig'
 
     # bootstrap4
     'bootstrap4',
@@ -202,7 +203,7 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 
-# メールアドレス検証を必須に設定
+# メールアドレス検証は不要
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 # ログイン/ログアウト後の遷移先を設定
