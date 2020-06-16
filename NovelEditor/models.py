@@ -70,6 +70,9 @@ class NovelHistory(models.Model):
     def __str__(self):
         return self.title
 
+    def novelid(self):
+        return self.novel_id.id
+
     # 小説に紐づく履歴データ作成
     def create_history_data(self, novel, title, body, revision_id):
         novel_history = NovelHistory()
