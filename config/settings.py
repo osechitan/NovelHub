@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     # Applications
     'NovelEditor.apps.NoveleditorConfig',
     'accounts.apps.AccountsConfig',
-    'NovelPost.apps.NovelpostConfig'
+    'NovelPost.apps.NovelpostConfig',
 
     # bootstrap4
     'bootstrap4',
