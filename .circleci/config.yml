@@ -58,7 +58,9 @@ jobs:
     executor: test_default
     steps:
       - checkout
+      - save_python_package
       - pip_install
+      - restore_python_package
       - run:
           name: Decode env file
           command: echo $ENV | base64 --decode > .env
