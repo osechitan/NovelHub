@@ -29,22 +29,6 @@ executors:
 
 # 実行コマンドの定義
 commands:
-  save_python_package:
-    description: "pip install したpackageをキャッシュする"
-    steps:
-      - save_cache:
-          name: Save Python Package
-          key: NovelHub-{{ .Branch }}-{{ checksum "requirements.txt" }}
-          paths:
-          - /usr/local/bin
-          - /usr/local/lib/python3.7/site-packages
-  restore_python_package:
-    description: "pip install したpackageのキャッシュを読み込む"
-    steps:
-      - restore_cache:
-          name: Restore Python Package
-          keys:
-          - NovelHub-{{ .Branch }}-{{ checksum "requirements.txt" }}
   pip_install:
     description: "pip install を実行"
     steps:
@@ -58,9 +42,7 @@ jobs:
     executor: test_default
     steps:
       - checkout
-      - save_python_package
       - pip_install
-      - restore_python_package
       - run:
           name: Decode env file
           command: echo $ENV | base64 --decode > .env
