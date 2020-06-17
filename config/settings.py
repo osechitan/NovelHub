@@ -17,7 +17,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['.novelhub.work']
+ALLOWED_HOSTS = ['localhost', '.novelhub.work']
 
 
 # Application definition
@@ -199,9 +199,9 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # メールアドレス認証に変更する設定
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_USERNAME_REQUIRED = True
 
 # メールアドレス検証は不要
 ACCOUNT_EMAIL_VERIFICATION = 'none'
