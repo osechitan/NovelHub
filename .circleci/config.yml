@@ -80,7 +80,7 @@ workflows:
     - build
     - deploy:
         filters:
-          branches: #masterブランチへのpushがあった時のみ
+          branches: # masterブランチへのpushがあった時のみデプロイ実行
             only: master
         requires:
         - build
