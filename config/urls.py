@@ -8,5 +8,6 @@ from . import settings, local_settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('NovelEditor.urls')),
-    path('accounts/', include('allauth.urls'))
+    path('accounts/', include('allauth.urls')),
+    path('novelpost/', include('NovelPost.urls')),
 ]
