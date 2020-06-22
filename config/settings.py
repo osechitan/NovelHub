@@ -65,6 +65,7 @@ TEMPLATES = [
             os.path.join(BASE_DIR, 'templates'),
             os.path.join(BASE_DIR, 'templates', 'account'),
             os.path.join(BASE_DIR, 'templates', 'NovelEditor'),
+            os.path.join(BASE_DIR, 'templates', 'NovelPost'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {

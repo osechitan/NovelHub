@@ -9,7 +9,7 @@ class NovelPostListView(generic.ListView):
     """
 
     model = NovelPost
-    template_name = 'novel_list.html'
+    template_name = 'post_list.html'
 
     def get_queryset(self):
         """
