@@ -9,4 +9,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('NovelEditor.urls')),
     path('accounts/', include('allauth.urls')),
+    path('novelposts/', include('NovelPost.urls')),
 ]
