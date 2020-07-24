@@ -1,7 +1,10 @@
 from django.shortcuts import render
 from django.views import generic, View
+import logging
 
 from .models import NovelPost
+
+logger = logging.getLogger(__name__)
 
 class NovelPostListView(generic.ListView):
     """
@@ -10,11 +13,4 @@ class NovelPostListView(generic.ListView):
 
     model = NovelPost
     template_name = 'post_list.html'
-
-    def get_queryset(self):
-        """
-        投稿された小説一覧を返す関数
-        """
-
-        novel_posts = NovelPost.objects.all().order_by('-created_at').reverse()
-        return novel_posts
+    context_object_name = 'post_list'

@@ -3,4 +3,11 @@
 {% block pate_title %}投稿小説一覧{% endblock %}
 {% block content %}
 
+    {%for post in post_list %}
+        <h4>{{ post.title }}</h4>
+        <div class="mb-2 border rounded pb-1">
+            <p>{{ post.body| truncatechars:75 | linebreaksbr}}</p>
+        </div>
+    {% endfor %}
+    
 {% endblock %}
