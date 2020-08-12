@@ -86,7 +86,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = _('user')
         verbose_name_plural = _('users')
-        #abstract = True # ここを削除しないといけないことを忘れない！！！！！！！！！！
+
 
     def clean(self):
         super().clean()
