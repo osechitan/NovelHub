@@ -19,7 +19,7 @@ class TestNovelListView(TestCase):
         self.user = UserFactory()
         self.novel = self.user.novel_set.get()
         self.request_factory = RequestFactory()
-    
+
     def test_get_queryset(self):
         request = self.request_factory.get(reverse('NovelHub:novel_list'))
         request.user = self.user
@@ -43,9 +43,14 @@ class TestNovelListView(TestCase):
         setattr(request, '_messages', messages)
 
         response = views.NovelListView.as_view()(request)
-        
+
         # 認証されたユーザーでないため、リダイレクトされることを確認
         self.assertEqual(response.status_code, 302)
+
+    def test_404(self):
+
+        response = self.client.get('novel-dummy/')
+        self.assertEqual(response.status_code, 404)
 
 
 class TestNovelDetailView(TestCase):
@@ -60,7 +65,7 @@ class TestNovelDetailView(TestCase):
         self.request_factory = RequestFactory()
 
     def test_get_detail(self):
-        
+
         request = self.request_factory.get(reverse('NovelHub:novel_detail', kwargs={'pk': self.novel.id}))
         request.user = self.user
         setattr(request, 'session', 'session')
@@ -190,7 +195,7 @@ class TestNovelUpdateView(TestCase):
 
         request = self.request_factory.get(reverse('NovelHub:novel_update', kwargs={'pk': self.novel.pk}))
         request.user = self.user
-        
+
         response = views.NovelUpdateView.as_view()(request, pk=self.novel.id)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.user)
@@ -258,7 +263,7 @@ class TestNovelUpdateView(TestCase):
         setattr(request, '_messages', messages)
 
         response = views.NovelUpdateView.as_view()(request, pk=self.novel.id, data=data)
-        
+
         # 認証されたユーザーでないため、リダイレクトされ、小説が更新されないことを確認
         self.assertEqual(response.status_code, 302)
         novel_updated = Novel.objects.get(id=self.novel.id)
@@ -281,7 +286,7 @@ class TestNovelRevertView(TestCase):
             body = self.novel.body,
             revision_id = self.novel.revision_id,
         )
-  
+
     def test_post(self):
         # 小説更新
         self.novel.title = '更新タイトル'
@@ -324,7 +329,7 @@ class TestNovelRevertView(TestCase):
                 body=self.novel.body,
                 revision_id=2
             )
-        
+
         request = self.request_factory.post(reverse('NovelHub:novel_revert', kwargs={'pk': self.novel_history.id}))
         request.user = AnonymousUser()
         setattr(request, 'session', 'session')
@@ -332,7 +337,7 @@ class TestNovelRevertView(TestCase):
         setattr(request, '_messages', messages)
 
         response = views.NovelRevertView.as_view()(request, pk=self.novel_history.id)
-        
+
         # 認証されたユーザーでないため、リダイレクトされ、小説が更新されないことを確認
         self.assertEqual(response.status_code, 302)
         novel_updated = Novel.objects.get(id=self.novel.id)
@@ -366,7 +371,7 @@ class TestNovelDeleteView(TestCase):
         setattr(request, 'session', 'session')
         messages = FallbackStorage(request)
         setattr(request, '_messages', messages)
-    
+
         response = views.NovelDeleteView.as_view()(request, pk=self.novel.id)
         self.assertEqual(response.status_code, 302)
 
@@ -381,7 +386,7 @@ class TestNovelDeleteView(TestCase):
         setattr(request, '_messages', messages)
 
         response = views.NovelDeleteView.as_view()(request, pk=self.novel.id)
-        
+
         # 認証されたユーザーでないため、リダイレクトされ、小説が削除されないことを確認
         self.assertEqual(response.status_code, 302)
         novel_updated = Novel.objects.get(id=self.novel.id)
