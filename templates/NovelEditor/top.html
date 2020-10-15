@@ -2,5 +2,19 @@
 {% load static %}
 {% block pate_title %}Top{% endblock %}
 {% block content %}
-<h1>NovelHub</h1>
+
+<div class="text-center mx-auto w-75">
+    <h1>NovelHub</h1>
+    <hr />
+    <p class="lead">NovelHubは、小説の投稿、執筆、執筆履歴の確認、執筆履歴から巻き戻しができる小説執筆サイトです。</p>
+    <p class="lead">あなたも気軽に小説を執筆してみませんか？まずは登録から！</p>
+    <p class="lead ">
+        <a class="btn btn-info logout-btn" role="button" href="{% url 'account_signup' %}" >登録する</a>
+    </p>
+    <p class="lead">登録済みの方はこちらから執筆！</p>
+    <p clas="lead">
+        <a class="btn btn-info logout-btn" role="button" href="{% url 'NovelHub:novel_create' %}">執筆する</a>
+    </p>
+</div>
+
 {% endblock %}
