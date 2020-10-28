@@ -6,3 +6,4 @@
 /logs
 postgresql
 init-letsencrypt.sh
+data
