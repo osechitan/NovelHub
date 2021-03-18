@@ -56,31 +56,8 @@ jobs:
           name: test
           command: python manage.py test --settings config.circleci_test_settings
 
-  deploy:
-   executor: deploy_default
-   steps:
-     - checkout
-     # circleciに登録した秘密鍵のfingerprint
-     - add_ssh_keys:
-         fingerprints:
-         - 0b:99:30:a4:87:58:c7:76:99:5d:3a:56:91:4e:1d:41
-     # ssh実行時の対話回避のため、key-scanを実行
-     - run:
-         name: Start ssh-key-scan
-         command: ssh-keyscan ${HOST_NAME} >> ~/.ssh/known_hosts
-     # gitのmasterブランチからpullし、dockerコンテナ再起動
-     - run:
-         name: Start git pull
-         command: ssh ${USER_NAME}@${HOST_NAME} 'cd ~/src/NovelHub && git pull origin master && docker-compose restart'
-
 workflows:
   version: 2.1
-  build_and_deploy:
+  build:
     jobs:
     - build
-    - deploy:
-        filters:
-          branches: # masterブランチへのpushがあった時のみデプロイ実行
-            only: master
-        requires:
-        - build

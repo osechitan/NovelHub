@@ -11,7 +11,7 @@ services:
       - .:/usr/src
       - ./static:/usr/src/static
       - ./templates:/usr/src/templates
-    command: gunicorn config.wsgi -b 0.0.0.0:8000
+    command: $COMMAND
     ports:
       - 8000:8000
     depends_on:
