@@ -35,7 +35,7 @@
             </div>
             <div id="collapse{{ forloop.counter }}" class="collapse" role="tabpanel" aria-labelledby="heading{{ forloop.counter }}" data-parent="#accordion">
                 <div class="card-body">
-                    {{ h.body }}
+                    {{ h.body | linebreaksbr }}
                 </div>
             </div>
         </div>
